@@ -1,10 +1,10 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 
-//Create express app
+//create express app
 const app = express()
 
-// Bodyparser middleware
+// bodyparser middleware
 app.use(
   bodyParser.urlencoded({
     extended: false
