@@ -3,17 +3,22 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../../Assets/Css/Layout/layout.css'
 
-export default class Login extends Component {
+export default class Register extends Component {
     render() {
         return (
             <div className='center'>
-                <h1>Login</h1>
+                <h1>SignUp</h1>
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label></Form.Label>
                         <Form.Control type="email" placeholder="Enter email" />
                         <Form.Text className="text-muted">
+                        
                         </Form.Text>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label></Form.Label>
+                        <Form.Control type="text" placeholder="Phone Number" />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label></Form.Label>
@@ -22,7 +27,7 @@ export default class Login extends Component {
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
-                </Form>                
+                </Form>
             </div>
         )
     }
