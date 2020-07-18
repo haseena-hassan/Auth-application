@@ -23,7 +23,7 @@ module.exports = function validateSignupInput(data) {
     // Phone number checks
     if (Validator.isEmpty(data.phone)) {
         errors.phone = "Phone number field is required"
-    } else if (!Validator.isMobilePhone(data.phone) {
+    } else if (!Validator.isMobilePhone(data.phone)) {
         errors.phone = "Phone is invalid"
     }
 
