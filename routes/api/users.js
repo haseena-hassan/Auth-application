@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../../models/User')
+const keys = require('../../config/keys')
 
 const validateSignup = require('../../validation/signup')
 const validateLogin = require('../../validation/login')
@@ -24,27 +25,23 @@ router.post("/register", (req, res) => {
         if(user){
             return res.status(400).json({email: "Email already exist"})
         }
-        else{
-            const newUser = {
-                email: req.body.email,
-                phone: req.body.phone,
-                password: req.body.password
-            }
+        else {
+            const newUser = new User({
+              email: req.body.email,
+              phone: req.body.phone,
+              password: req.body.password
+            });
+            // Hash password before saving in database
             bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                  if (err) throw err
-                  newUser.password = hash
-                })
-            })
-            User.create({
-                email: newUser.email,
-                phone: newUser.phone,
-                password: newUser.password
-            })
-            .then(user => res.json(user))
-            .catch(err => {
-                console.log(err)
-            })
+              bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) throw err;
+                newUser.password = hash;
+                newUser
+                  .save()
+                  .then(user => res.json(user))
+                  .catch(err => console.log(err));
+              });
+            });
         }
     })
 })
@@ -60,37 +57,35 @@ router.post("/login", (req, res) => {
     if(!isValid){
         return res.status(400).json(errors)
     }
-
-
     //check if registered user
     User.findOne({ where: {email: req.body.email} }).then(user => {
         if(!user){
             return res.status(404).json({usernotfound : "User not found"})
         }
-        // bcrypt.compare(req.body.password, user.password).then(isMatch => {
-            if(req.body.password === user.password){
+        bcrypt.compare(req.body.password, user.password).then(isMatch => {
+            if(isMatch){
                 const payload = {
                     id : user.id,
                     email : user.email
                 }
-                return res.status(200).json({LoggedIn : payload})
-                // jwt.sign(
-                //     payload,
-                //     "secret101",
-                //     {
-                //         expiresIn : 3600
-                //     },
-                //     (err,token) => {
-                //         res.json({
-                //             success : true,
-                //             token : "Bearer " + token
-                //         })
-                //     }
-                // )
+                // return res.status(200).json({LoggedIn : payload})
+                jwt.sign(
+                    payload,
+                    keys.secretOrKey,
+                    {
+                        expiresIn : 3600
+                    },
+                    (err,token) => {
+                        res.json({
+                            success : true,
+                            token : "Bearer " + token
+                        })
+                    }
+                )
             } else {
                 return res.status(400).json({incorrectpassword : "Incorrect Password"})
             }
-        // })
+        })
     })
 })
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../../Assets/Css/Layout/layout.css'
+import axios from "axios";
 
 export default class Register extends Component {
     constructor() {
@@ -28,6 +29,12 @@ export default class Register extends Component {
             password2: this.state.password2
         }
         console.log(newUser);
+        axios
+            .post("/api/users/register", newUser)
+            .then(res => window.history.push("/login")) // re-direct to login on successful register
+            .catch(err =>
+                console.log(err)
+        );
     }
 
     render() {

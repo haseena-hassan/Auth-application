@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../../Assets/Css/Layout/layout.css'
+import axios from "axios";
 
 export default class Login extends Component {
     constructor() {
@@ -23,7 +24,15 @@ export default class Login extends Component {
             email: this.state.email,
             password: this.state.password
         }
-        console.log(userData)
+        
+        axios
+        .post("/api/users/login", userData)
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err =>
+            console.log(err)
+        );
     }
 
     render() {
