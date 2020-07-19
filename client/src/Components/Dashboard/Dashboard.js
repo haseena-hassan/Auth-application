@@ -16,7 +16,7 @@ class Dashboard extends Component {
         const { user } = this.props.auth
         return (
             <div className='center'>
-                <h1>Welcome {user.name.split(" ")[0]}</h1>
+                <h1>Welcome {user.email.split("@")[0]}</h1>
                 <Button onClick={this.onLogoutClick} variant="primary" >Logout</Button>
             </div>
         )
