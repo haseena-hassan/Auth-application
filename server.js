@@ -1,3 +1,4 @@
+const { port } = require('./config/keys')
 
 //create express app
 const express = require("express")
@@ -20,5 +21,4 @@ app.use("/api/users", users)
 
 
 //server listening to port
-const port = process.env.PORT || 5000
 app.listen(port, () => console.log(`Server up and running on port ${port} !`))

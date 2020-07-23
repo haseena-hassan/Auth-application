@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../../models/User')
-const keys = require('../../config/keys')
+const { secretOrKey } = require('../../config/keys')
 
 const validateSignup = require('../../validation/signup')
 const validateLogin = require('../../validation/login')
@@ -71,7 +71,7 @@ router.post("/login", (req, res) => {
                 // return res.status(200).json({LoggedIn : payload})
                 jwt.sign(
                     payload,
-                    keys.secretOrKey,
+                    secretOrKey,
                     {
                         expiresIn : 3600
                     },

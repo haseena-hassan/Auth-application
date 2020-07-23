@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
+const { db , host , dbUser , dbPassword } = require('../config/keys')
 
-const sequelize = new Sequelize("application", "root", "", {
-  host: "127.0.0.1",
+const sequelize = new Sequelize(db, dbUser, dbPassword, {
+  host: host,
   dialect: "mysql"
 });
 
